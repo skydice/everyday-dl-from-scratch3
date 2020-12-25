@@ -4,6 +4,7 @@ from functions.Exp import Exp
 from functions.Function import Function
 from functions.Square import Square
 from Variable import Variable
+from functions.diff import numerical_diff
 
 
 def test_variable():
@@ -30,3 +31,26 @@ def test_function_chain():
     y = C(b)
 
     assert y.data == 1.648721270700128
+
+
+def test_numerical_diff():
+    f = Square()
+    x = Variable(np.array(2.0))
+    dy = numerical_diff(f, x)
+
+    assert dy == 4.000000000004
+
+
+def test_composite_function_diff():
+    def f(x):
+        A = Square()
+        B = Exp()
+        C = Square()
+
+        return C(B(A(x)))
+
+    x = Variable(np.array(0.5))
+    dy = numerical_diff(f, x)
+
+    assert dy == 3.2974426293330694
+
