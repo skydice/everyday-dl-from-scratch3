@@ -55,7 +55,7 @@ def test_composite_function_diff():
     assert dy == 3.2974426293330694
 
 
-def test_backward_calculte():
+def test_backward_calculate():
     A = Square()
     B = Exp()
     C = Square()
@@ -69,5 +69,29 @@ def test_backward_calculte():
     b.grad = C.backward(y.grad)
     a.grad = B.backward(b.grad)
     x.grad = A.backward(a.grad)
+
+    assert x.grad == 3.297442541400256
+
+
+def test_auto_backward_propagation():
+    A = Square()
+    B = Exp()
+    C = Square()
+
+    x = Variable(np.array(0.5))
+
+    a = A(x)
+    b = B(a)
+    y = C(b)
+
+    assert y.creator == C
+    assert y.creator.input == b
+    assert y.creator.input.creator == B
+    assert y.creator.input.creator.input == a
+    assert y.creator.input.creator.input.creator == A
+    assert y.creator.input.creator.input.creator.input == x
+
+    y.grad = np.array(1.0)
+    y.backward()
 
     assert x.grad == 3.297442541400256
