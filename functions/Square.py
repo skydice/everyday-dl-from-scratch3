@@ -10,3 +10,7 @@ class Square(Function):
         gx = 2 * x * gy
 
         return gx
+
+
+def square(x):
+    return Square()(x)

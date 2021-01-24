@@ -12,3 +12,7 @@ class Exp(Function):
         gx = np.exp(x) * gy
 
         return gx
+
+
+def exp(x):
+    return Exp()(x)
