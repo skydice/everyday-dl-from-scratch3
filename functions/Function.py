@@ -3,15 +3,22 @@ from Variable import Variable
 
 
 class Function:
-    def __call__(self, input):
-        x = input.data
-        y = self.forward(x)
-        output = Variable(as_array(y))
-        output.set_creator(self)
-        self.input = input
-        self.output = output
+    def __call__(self, *inputs):
+        xs = [x.data for x in inputs]
+        ys = self.forward(*xs)
+        if not isinstance(ys, tuple):
+            ys = (ys,)
 
-        return output
+        outputs = [Variable(as_array(y)) for y in ys]
+
+        self.generation = max([x.generation for x in inputs])
+        for output in outputs:
+            output.set_creator(self)
+
+        self.inputs = inputs
+        self.outputs = outputs
+
+        return outputs if len(outputs) > 1 else outputs[0]
 
     def forward(self, x):
         raise NotImplementedError()

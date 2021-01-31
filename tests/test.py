@@ -1,15 +1,14 @@
 import numpy as np
 
+from functions.Add import add
 from functions.Exp import Exp
-from functions.Function import Function
-from functions.Square import Square
+from functions.Square import Square, square
 from Variable import Variable
 from functions.diff import numerical_diff
 
 
 def test_variable():
-    data = np.array(1.0)
-    x = Variable(data)
+    x = Variable(np.array(1.0))
     assert x.data == 1.0
 
 
@@ -85,13 +84,42 @@ def test_auto_backward_propagation():
     y = C(b)
 
     assert y.creator == C
-    assert y.creator.input == b
-    assert y.creator.input.creator == B
-    assert y.creator.input.creator.input == a
-    assert y.creator.input.creator.input.creator == A
-    assert y.creator.input.creator.input.creator.input == x
+    assert y.creator.inputs[0] == b
+    assert y.creator.inputs[0].creator == B
+    assert y.creator.inputs[0].creator.inputs[0] == a
+    assert y.creator.inputs[0].creator.inputs[0].creator == A
+    assert y.creator.inputs[0].creator.inputs[0].creator.inputs[0] == x
 
     y.grad = np.array(1.0)
     y.backward()
 
     assert x.grad == 3.297442541400256
+
+
+def test_add_class():
+    x0 = Variable(np.array(2))
+    x1 = Variable(np.array(3))
+    y = add(x0, x1)
+    assert y.data == 5
+
+
+def test_square_backward():
+    x = Variable(np.array(2.0))
+    y = Variable(np.array(3.0))
+
+    z = add(square(x), square(y))
+    z.backward()
+
+    print(z.data)
+    print(x.grad)
+    print(y.grad)
+
+
+def test_complex_graph_backward():
+    x = Variable(np.array(2.0))
+    a = square(x)
+    y = add(square(a), square(a))
+    y.backward()
+
+    assert y.data == 32.0
+    assert x.grad == 64.0
