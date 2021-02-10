@@ -1,5 +1,7 @@
 import numpy as np
 
+from functions.Mul import mul
+
 
 class Variable:
     def __init__(self, data, name=None):
@@ -65,6 +67,9 @@ class Variable:
         p = str(self.data).replace('\n', '\n' + ' ' * 9)
 
         return 'variable(' + p + ')'
+
+    def __mul__(self, other):
+        return mul(self, other)
 
     @property
     def shape(self):
