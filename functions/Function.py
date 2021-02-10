@@ -1,5 +1,6 @@
 import weakref
 
+from Config import Config
 from Util import as_array
 from Variable import Variable
 
@@ -13,12 +14,13 @@ class Function:
 
         outputs = [Variable(as_array(y)) for y in ys]
 
-        self.generation = max([x.generation for x in inputs])
-        for output in outputs:
-            output.set_creator(self)
+        if Config.enable_backprop:
+            self.generation = max([x.generation for x in inputs])
+            for output in outputs:
+                output.set_creator(self)
 
-        self.inputs = inputs
-        self.outputs = [weakref.ref(output) for output in outputs]
+            self.inputs = inputs
+            self.outputs = [weakref.ref(output) for output in outputs]
 
         return outputs if len(outputs) > 1 else outputs[0]
 

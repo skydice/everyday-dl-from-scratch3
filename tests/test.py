@@ -1,5 +1,6 @@
 import numpy as np
 
+from Util import using_config
 from functions.Add import add
 from functions.Exp import Exp
 from functions.Square import Square, square
@@ -123,3 +124,11 @@ def test_complex_graph_backward():
 
     assert y.data == 32.0
     assert x.grad == 64.0
+
+
+def test_step_18():
+    with using_config('enable_backprop', False):
+        x = Variable(np.array(2.0))
+        y = square(x)
+
+    assert y.grad is None
