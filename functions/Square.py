@@ -8,7 +8,6 @@ class Square(Function):
     def backward(self, gy):
         x = self.inputs[0].data
         gx = 2 * x * gy
-
         return gx
 
 

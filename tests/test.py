@@ -2,9 +2,14 @@ import numpy as np
 
 from Util import using_config
 from functions.Add import add
+from functions.Div import div, rdiv
 from functions.Exp import Exp
+from functions.Mul import mul
+from functions.Neg import neg
+from functions.Pow import pow_
 from functions.Square import Square, square
 from Variable import Variable
+from functions.Sub import sub, rsub
 from functions.diff import numerical_diff
 
 
@@ -132,3 +137,26 @@ def test_step_18():
         y = square(x)
 
     assert y.grad is None
+
+
+def test_operator_overload():
+    Variable.__add__ = add
+    Variable.__radd__ = add
+    Variable.__mul__ = mul
+    Variable.__rmul__ = mul
+    Variable.__neg__ = neg
+    Variable.__sub__ = sub
+    Variable.__rsub__ = rsub
+    Variable.__truediv__ = div
+    Variable.__rtruediv__ = rdiv
+    Variable.__pow__ = pow_
+
+    x = Variable(np.array(2.0))
+    y = 3.0 * x + 1.0
+
+    assert y.data == 7.0
+
+    x = Variable(np.array(2.0))
+    y = x ** 3
+
+    assert y.data == 8.0

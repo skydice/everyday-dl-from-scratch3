@@ -1,7 +1,5 @@
 import numpy as np
 
-from functions.Mul import mul
-
 
 class Variable:
     def __init__(self, data, name=None):
@@ -68,9 +66,6 @@ class Variable:
 
         return 'variable(' + p + ')'
 
-    def __mul__(self, other):
-        return mul(self, other)
-
     @property
     def shape(self):
         return self.data.shape
@@ -86,3 +81,10 @@ class Variable:
     @property
     def dtype(self):
         return self.data.dtype
+
+
+def as_variable(obj):
+    if isinstance(obj, Variable):
+        return obj
+
+    return Variable(obj)

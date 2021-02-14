@@ -2,11 +2,13 @@ import weakref
 
 from Config import Config
 from Util import as_array
-from Variable import Variable
+from Variable import Variable, as_variable
 
 
 class Function:
     def __call__(self, *inputs):
+        inputs = [as_variable(x) for x in inputs]
+
         xs = [x.data for x in inputs]
         ys = self.forward(*xs)
         if not isinstance(ys, tuple):
