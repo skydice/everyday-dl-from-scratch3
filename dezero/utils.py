@@ -2,7 +2,7 @@ import contextlib
 
 import numpy as np
 
-from Config import Config
+from dezero.config import Config
 
 
 def as_array(x):

@@ -1,8 +1,8 @@
 import weakref
 
-from Config import Config
-from Util import as_array
-from Variable import Variable, as_variable
+from dezero.config import Config
+from dezero.utils import as_array
+from dezero.variable import as_variable, Variable
 
 
 class Function:

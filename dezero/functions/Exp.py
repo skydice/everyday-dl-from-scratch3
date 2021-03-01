@@ -1,6 +1,6 @@
 import numpy as np
 
-from functions.Function import Function
+from dezero.functions.Function import Function
 
 
 class Exp(Function):

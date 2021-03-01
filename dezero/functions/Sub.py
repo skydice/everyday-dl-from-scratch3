@@ -1,5 +1,5 @@
-from Util import as_array
-from functions.Function import Function
+from dezero.functions.Function import Function
+from dezero.utils import as_array
 
 
 class Sub(Function):

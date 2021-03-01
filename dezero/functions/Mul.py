@@ -1,5 +1,5 @@
-from Util import as_array
-from functions.Function import Function
+from dezero.functions.Function import Function
+from dezero.utils import as_array
 
 
 class Mul(Function):
@@ -8,7 +8,7 @@ class Mul(Function):
         return y
 
     def backward(self, gy):
-        x0, x1 = self.input[0].data, self.inputs[1].data
+        x0, x1 = self.inputs[0].data, self.inputs[1].data
         return gy * x1, gy * x0
 
 

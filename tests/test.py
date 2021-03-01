@@ -1,16 +1,16 @@
 import numpy as np
 
-from Util import using_config
-from functions.Add import add
-from functions.Div import div, rdiv
-from functions.Exp import Exp
-from functions.Mul import mul
-from functions.Neg import neg
-from functions.Pow import pow_
-from functions.Square import Square, square
-from Variable import Variable
-from functions.Sub import sub, rsub
-from functions.diff import numerical_diff
+from dezero.functions.Add import add
+from dezero.functions.Div import div, rdiv
+from dezero.functions.Exp import Exp
+from dezero.functions.Mul import mul
+from dezero.functions.Neg import neg
+from dezero.functions.Pow import pow_
+from dezero.functions.Square import Square, square
+from dezero.functions.Sub import sub, rsub
+from dezero.functions.diff import numerical_diff
+from dezero.utils import using_config
+from dezero.variable import Variable
 
 
 def test_variable():
@@ -160,3 +160,11 @@ def test_operator_overload():
     y = x ** 3
 
     assert y.data == 8.0
+
+
+def test_import_dezero():
+    x = Variable(np.array(1.0))
+    y = (x + 3) ** 2
+    y.backward()
+
+    assert x.grad == 8.0

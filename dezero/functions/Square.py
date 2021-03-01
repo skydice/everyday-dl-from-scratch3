@@ -1,4 +1,4 @@
-from functions.Function import Function
+from dezero.functions.Function import Function
 
 
 class Square(Function):
